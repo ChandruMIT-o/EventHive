@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <header class="event-page-header">
+        <label>
+            <span>Event</span>
+            <span>Hive</span>
+        </label>
+        <div class="login-signup-btn-grp">
+            <button type="button">Login</button>
+            <button type="button">Signup</button>
+        </div>
+    </header>
+    <!-- BANNER DISPLAY -->
+    <div class="banner-display">
+        <div class="title">Make Your Own Event</div>
+        <div class="description">
+            Create your own event, share your experiences, and connect with your audience.
+        </div>
+        <div class="create-events-button">
+            <button type="button">Create Event</button>
+        </div>
+    </div>
+    <!-- EXPLORE EVENTS -->
+     <div class="explore-events-title">Explore <span>Events</span>span></div>
+     <div class="filters-container">
+        <div class="event-type">
+            <label for="event-type">Looking for</label>
+            <select id="event-type">
+                <option value="">All</option>
+                <option value="concerts">Concerts</option>
+                <option value="festivals">Festivals</option>
+                <option value="workshops">Workshops</option>
+                <option value="seminars">Seminars</option>
+                <option value="meetups">Meetups</option>
+            </select>
+        </div>
+        <div class="location">
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="City, State">
+        </div>
+        <div class="date-range">
+            <label for="date-range">When</label>
+            <input type="date" id="start-date">
+            <input type="date" id="end-date">
+        </div>
+        <div class="search-bar-section">
+            <label for="search-bar-section">Search</label>
+            <div class="search-bar">
+                <input type="text" id="search-bar" placeholder="Search for events">
+                <button type="button">Search</button>
+            </div>
+        </div>
+     </div>
+     <!-- EVENT CARDS -->
+    {% include "HomePageComponents/home-event-card.html" %}
+</body>
+</html>
