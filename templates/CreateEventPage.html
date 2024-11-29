@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event Page</title>
+</head>
+<body>
+    <header class="event-page-header">
+        <label>
+            <span>Event</span>
+            <span>Hive</span>
+        </label>
+        <div class="login-signup-btn-grp">
+            <button type="button">Login</button>
+            <button type="button">Signup</button>
+        </div>
+    </header>
+    <div class="centered-container">
+        <!-- EVENT FORM -->
+        <form class="event-form" method="POST">
+            <!-- PRIMARY DETAILS -->
+            <div class="primary-details">
+                <label class="cep-header1">Event Details</label>
+                <div class="input-component">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" name="event-title" required>
+                </div>
+                <div class="input-component">
+                    <label for="event-venue">Event Venue</label>
+                    <input type="date" id="event-venue" name="event-venue" required>
+                </div>
+                <div class="column-split">
+                    <div class="column1">
+                        <div class="input-component">
+                            <label for="event-start-time">Start Time</label>
+                            <input type="time" id="event-start-time" name="event-start-time" required>
+                        </div>
+                        <div class="input-component">
+                            <label for="event-start-date">Start Date</label>
+                            <input type="date" id="event-start-date" name="event-start-date" required>
+                        </div>
+                    </div>
+                    <div class="column2">
+                        <div class="input-component">
+                            <label for="event-end-time">End Time</label>
+                            <input type="time" id="event-end-time" name="event-end-time" required>
+                        </div>
+                        <div class="input-component">
+                            <label for="event-end-date">End Date</label>
+                            <input type="date" id="event-end-date" name="event-end-date" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- EVENT DESCRIPTION -->
+            <div class="event-description">
+                <label class="cep-header1">Event Description</label>
+                <div class="event-image">
+                    <label for="event-image">Event Image</label>
+                    <input type="file" id="event-image" name="event-image" accept="image/*">
+                    <img src="" alt="Event Image" id="preview-image">
+                </div>
+                <div class="event-description-content">
+                    <label for="event-description">Type here...</label>
+                    <textarea id="event-description" name="event-description" rows="4" required></textarea>
+                </div>
+                <div class="event-tags">
+                    <label for="event-tags">Event Tags</label>
+                    <input type="text" id="event-tags" name="event-tags" required>
+                </div>
+            </div>
+            <!-- EVENT PRICING -->
+            <div class="event-pricing">
+                <div class="toggle-pricing">
+                    <label class="cep-header1">Pricing</label>
+                    <input type="checkbox" id="toggle-pricing">
+                </div>
+                <div class="tier-details-column-split">
+                    <div class="column1">
+                        <label class="tier-name">Tier Name</label>
+                        <input type="text" id="tier-name-1" name="tier-name-1" required>
+                        <div class="sub-column">
+                            <div class="column1">
+                                <label class="tier-price">Tier Price</label>
+                                <input type="number" id="tier-price-1" name="tier-price-1" required>
+                            </div>
+                            <div class="column2">
+                                <label class="tickets-max-count">Tickets Max Count</label>
+                                <input type="number" id="tickets-max-count-1" name="tickets-max-count-1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column2">
+                        <label class="tier-decription">Tier Description</label>
+                        <textarea id="tier-description-1" name="tier-description-1" rows="4" required></textarea>
+                    </div>
+                </div>
+                <button class="add-pricing-button">
+                    <label class="add-pricing-buttons-text">Add Pricing Tiers</label>
+                    <div class="add-svg"></div>
+                </button>
+            </div>
+            <!-- EVENT MEDIA -->
+            <div>
+                <button class="upload-media">
+                    <label class="upload-media-text">Upload Media</label>
+                    <div class="add-svg"></div>
+                </button>
+            </div>
+            <!-- EVENT SUBMISSION -->
+            <button type="create-event-button">Create Event</button>
+        </form>
+    </div>
+</body>
+</html>
