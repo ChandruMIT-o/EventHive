@@ -28,7 +28,21 @@
                 </div>
                 <div class="input-component">
                     <label for="event-venue">Event Venue</label>
-                    <input type="date" id="event-venue" name="event-venue" required>
+                    <input type="text" id="event-venue" name="event-venue" placeholder="Street name" required>
+                    <div class="event-address-container">
+                        <div class="city">
+                            <label for="address-city">City</label>
+                            <input type="text" id="address-city" name="event-venue" placeholder="City name" required>
+                        </div>
+                        <div class="state">
+                            <label for="address-state">State</label>
+                            <input type="text" id="address-state" name="event-venue" placeholder="State name" required>
+                        </div>
+                        <div class="country">
+                            <label for="address-country">Country</label>
+                            <input type="text" id="address-country" name="event-venue" placeholder="Country name" required>
+                        </div>
+                    </div>
                 </div>
                 <div class="column-split">
                     <div class="column1">
@@ -62,8 +76,12 @@
                     <img src="" alt="Event Image" id="preview-image">
                 </div>
                 <div class="event-description-content">
-                    <label for="event-description">Type here...</label>
-                    <textarea id="event-description" name="event-description" rows="4" required></textarea>
+                    <label for="event-description">Enter Description</label>
+                    <textarea id="event-description" name="event-description" rows="4" placeholder="Type here..." required></textarea>
+                </div>
+                <div class="event-type">
+                    <label for="event-type">Event Type</label>
+                    <input type="text" id="event-type" name="event-type" required>
                 </div>
                 <div class="event-tags">
                     <label for="event-tags">Event Tags</label>
