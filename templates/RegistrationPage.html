@@ -6,35 +6,68 @@
     <title>Registration</title>
 </head>
 <body>
+    <link rel="stylesheet" href="{{ url_for('static', filename='RegistrationPage.css') }}">
+
     <header class="event-page-header">
-        <label>
+        <label class="brand-title">
             <span>Event</span>
-            <span>Hive</span>
+            <span class="span">Hive</span>
         </label>
         <div class="login-signup-btn-grp">
-            <button type="button">Login</button>
-            <button type="button">Signup</button>
+            {% if session.get('user_id') %}
+                <form action="{{ url_for('signout') }}" method="POST" style="display: inline;">
+                    <button type="submit" class="signin-button">Sign Out</button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('signin') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Login</button>
+                </form>
+                <form action="{{ url_for('signup') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Signup</button>
+                </form>
+            {% endif %}
         </div>
-    </header>
+    </header>    
     <div class="registration-container">
-        <label class="header1">Registration</label>
-        <div class="tier-payment">
-            <div class="tier">
-                <label class="tier-name">Tier: Tier Name</label>
-                <div class="column-split">
-                    <div class="column1">
-                        <label class="description-title">Description</label>
-                        <p class="description-paragraph">DesignHub organized a 3D Modeling Workshop using Blender on 16th February at 5 PM. The workshop taught participants the magic of creating stunning 3D models and animations using Blender. It was suitable for both beginners and experienced users. The event was followed by a blender-render competition, which added to the excitement.</p>
-                    </div>
-                    <div class="column2">
-                        <input type="number" class="total-tickers" placeholder="Enter number of Tickets (Default to 1)">
-                        <button class="book-price-now">100$ Book Now</button>
-                        <label class="availability">Availablility  10/100</label>
+        <button class="back-button" type="button" onclick="history.back()"><img src="{{ url_for('static', filename='images/back.svg')}}">
+        </button>
+        <label class="header1">Registration for {{ event['title'] }}</label>
+        <form class="register-form" method="POST" action="{{ url_for('confirm_registration', event_id=event['event_id']) }}">
+            <div class="tier-payment">
+                {% for tier in tiers %}
+                <div class="tier-temp">
+                    <label class="tier-name">Tier: {{ tier['tier_name'] }}</label>
+                    <div class="tier">
+                        <div class="column-split">
+                            <div class="tier-column1">
+                                <label class="description-title">Description</label>
+                                <p class="description-paragraph">{{ tier['tier_description'] or "No description available" }}</p>
+                            </div>
+                            <div class="tier-column2">
+                                <input 
+                                    type="number" 
+                                    name="{{ tier['tier_id'] }}" 
+                                    class="total-tickets" 
+                                    placeholder="Enter tickets" 
+                                    min="0" 
+                                    max="{{ tier['available_tickets'] }}"
+                                >
+                                <label class="support-text">
+                                    Tickets @ {{ tier['price'] }}$
+                                </label>
+                                <label class="availability">
+                                    Availability: {{ tier['available_tickets'] - tier['total_tickets_sold']}}/{{ tier['available_tickets'] }}
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-        </div>
+            <div class="book-now-section">
+                <button type="submit" class="book-now-button">Book Now</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>
-

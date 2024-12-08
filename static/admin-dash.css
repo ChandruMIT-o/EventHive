@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@500&display=swap');
+
+:root{
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --primary-light: #1265BF;
+    --primary-lighter: #1EA1F2;
+
+    --font-family: 'Lexend';
+
+    --light-grey: #ECECEC;
+}
+
+.admin-dash-container{
+    display: flex;
+    flex-direction: column;
+    /* margin: 3%; */
+    margin-left: 3%;
+    margin-right: 3%;
+    
+    background-color: var(--primary-color);
+    border-radius: 10px;
+
+    color: var(--font-light-color);
+    font-family: var(--font-family);
+    font-size: 1rem;
+
+    padding: 30px;
+    gap: 30px;
+}
+
+.admin-dash-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.column-split{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+.summary-column1{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    flex: 1;
+    min-width: 350px;
+}
+
+.summary-card{
+    display: flex;
+    flex-direction: row;
+
+    flex: 1;
+    max-height: 50px;
+}
+
+.summary-info {
+
+    flex: 3;
+
+    background-color: var(--primary-light);
+    padding: 15px 25px;
+    font-size: 0.85rem;
+
+    max-width: 100%;
+    border-radius: 3px 0px 0px 3px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-number{
+
+    flex: 1;
+
+    font-size: 1.3rem;
+    font-weight: 700;
+
+    text-align: center;
+
+    background-color: var(--font-light-color);
+    padding: 15px 25px;
+    font-size: 0.85rem;
+    max-width: 100%;
+
+    color: var(--primary-color);
+    border-radius: 0px 3px 3px 0px;
+}
+
+.registration-list{
+    font-family: var(--font-family);
+    font-size: 0.8em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 5px;
+
+    padding: 10px 20px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+
+    width: 200px;
+
+    text-align: left;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tiers{
+    background-color: var(--primary-lighter);
+}
+
+.impression-left{
+    background-color: var(--secondary-color);
+    border-radius: 30px 0px 0px 30px;
+}
+
+.impression-right{
+    border-radius: 0px 30px 30px 0px;
+}
+
+.registration-btn-align{
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@500&display=swap');
+
+:root {
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --primary-light: #1265BF;
+    --primary-lighter: #1EA1F2;
+
+    --font-family: 'Lexend';
+
+    --light-grey: #ECECEC;
+}
+
+:root {
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --primary-light: #1265BF;
+    --primary-lighter: #1EA1F2;
+
+    --font-family: 'Lexend';
+
+    --light-grey: #ECECEC;
+}
+
+/* Card container */
+.home-event-user-card {
+    width: 300px;
+    border-radius: 15px;
+    background-color: var(--font-light-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    font-family: var(--font-family), sans-serif;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.home-event-user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Image background */
+.image-background {
+    position: relative;
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--primary-color);
+
+    border-radius: 15px;
+}
+
+/* Event user relation badge (Created/Registered) */
+.event-user-relation {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--font-light-color);
+    color: var(--primary-color);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Event status badge (Upcoming/Completed) */
+.event-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--font-dark-color);
+    color: var(--font-light-color);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Event title */
+.event-title2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--font-dark-color);
+
+    padding: 15px;
+}
+
+/* Bottom section with summary bubbles and more info button */
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-top: 1px solid var(--light-grey);
+}
+
+/* Summary bubbles (views and tickets) */
+.summary-bubbles {
+    display: flex;
+    gap: 20px;
+
+    justify-content: center;
+}
+
+.summary-number {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: var(--font-medium-color);
+}
+
+/* More info button */
+.more-info {
+    background-color: #F2F2F2;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.more-info:hover {
+    background-color: var(--light-grey);
+}
+
+.bubble{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}

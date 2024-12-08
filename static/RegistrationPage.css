@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@500&display=swap');
+
+:root{
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+    --primary-light: #1265BF;
+    --primary-lighter: #1EA1F2;
+
+    --font-family: 'Lexend';
+
+    --light-grey: #ECECEC;
+}
+
+body{
+    margin: 0px;
+    background-color: #F8F8FA;
+}
+
+.event-page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 15px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.brand-title {
+    font-family: 'Lexend';
+    font-size: 1.55em;
+    color: var(--font-dark-color);
+    font-weight: bold;
+}
+
+.brand-title .span {
+    color: var(--secondary-color);
+}
+
+.signin-button {
+    font-family: var(--font-family);
+    font-size: 0.8em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 5px;
+
+    padding: 10px 20px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+}
+
+.signin-button:hover {
+    background-color: var(--primary-color);
+}
+
+/* REGISTRATION CONTAINER */
+
+.registration-container {
+    margin-top: 15px;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    font-family: var(--font-family);
+}
+
+.header1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--font-dark-color);
+}
+
+.tier-payment{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tier{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tier-name{
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: var(--font-light-color);
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
+.tier-temp{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.column-split{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.tier-column1{
+    flex: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--light-grey);
+    border-radius: 10px;
+    padding: 15px 15px;
+}
+
+.tier-column2{
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.book-now-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.book-now-button {
+
+    font-family: var(--font-family);
+    font-size: 0.9em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 5px;
+
+    padding: 15px 50px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+
+    justify-self: center;
+    align-self: center;
+}
+
+.book-now-button:disabled {
+    background-color: var(--font-medium-color);
+}
+
+.book-now-button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+}
+
+.register-form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.total-tickets{
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px;
+    font-family: var(--font-family);
+    color: #10107B;
+}
+
+.total-tickets:focus{
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.availability{
+    font-size: 0.9em;
+    color: var(--font-dark-color);
+    border-radius: 5px;
+    background-color: var(--primary-lighter);
+    padding: 10px 10px;
+    color: var(--font-light-color);
+
+    text-align: center;
+}
+
+.support-text{
+    font-size: 0.9em;
+    color: var(--font-dark-color);
+    border: dashed;
+    border-radius: 5px;
+    border-color: var(--primary-color);
+    background-color: var(--font-light-color);
+    padding: 10px 10px;
+    color: var(--primary-color);
+
+    font-weight: 700;
+    text-align: center;
+}
+
+.description-title{
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.description-paragraph{
+    font-size: 0.9em;
+    color: var(--font-dark-color);
+}
+
+.back-button {
+
+    width: 60px;
+
+    font-family: var(--font-family);
+    font-size: 0.8em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 50px;
+
+    padding: 10px 13px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+
+    display: flex;
+    justify-content: center;
+}
+
+.back-button:hover {
+    background-color: var(--primary-color);
+}

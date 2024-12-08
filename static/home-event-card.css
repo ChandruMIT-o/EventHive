@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@500&display=swap');
+
+:root {
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --primary-light: #1265BF;
+    --primary-lighter: #1EA1F2;
+
+    --font-family: 'Lexend';
+
+    --light-grey: #ECECEC;
+}
+
+.home-event-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+/* Event card container */
+.event-card {
+    width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--font-light-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--font-family);
+}
+
+/* Hover effect */
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Image container */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    background-color: var(--primary-color);
+}
+
+/* Badge (e.g., "FREE") */
+.badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Event content */
+.event-content {
+    padding: 15px;
+    text-align: left;
+}
+
+.event-title {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin: 0 0 8px;
+    color: var(--font-dark-color);
+}
+
+.event-datetime {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin: 0 0 4px;
+    font-weight: 500; 
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.event-location {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: 700; 
+    border-top: 1px solid var(--light-grey);
+    padding-top: 10px;
+}

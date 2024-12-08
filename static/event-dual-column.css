@@ -1,0 +1,133 @@
+:root{
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --primary-light: #1265BF;
+    --primary-lighter: #1EA1F2;
+
+    --font-family: 'Lexend';
+
+    --light-grey: #ECECEC;
+}
+
+.dual-column-description{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    margin-left: 3%;
+    margin-right: 3%;
+    gap: 30px;
+
+    font-family: var(--font-family);
+}
+
+.dual-column-description-column1{
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    max-width: 100%;
+    min-width: 350px;
+
+}
+
+.dual-column-description-column2{
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    max-width: 100%;
+    min-width: 350px;
+
+    gap: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.h2-text{
+    font-size: 1.2rem;
+    color: var(--font-dark-color);
+    font-weight: 700;
+}
+
+.description-box{
+    font-size: 0.9rem;
+    color: var(--font-dark-color);
+    font-weight: 500;
+
+    border-radius: 10px;
+    padding: 15px;
+
+    background-color: var(--light-grey);
+}
+
+.hours{
+    display: flex;
+    flex-direction: column;
+
+    font-weight: 500;
+
+    gap: 10px;
+    padding: 15px;
+}
+
+.hours-c{
+    color: var(--secondary-color);
+}
+
+.google-map-link-header{
+    display: flex;
+    flex-direction: column;
+
+    font-weight: 500;
+
+    gap: 10px;
+}
+
+.map{
+    flex: 1;
+    border-radius: 10px;
+}
+
+.tags-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-media-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tags{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    font-size: 0.8rem;
+    gap: 10px;
+    row-gap: 10px;
+}
+
+.tag {
+    padding: 5px 8px;
+    background: var(--light-grey);
+    border-radius: 5px;
+}
+
+.social-media-icons{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}

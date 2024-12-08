@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Hive</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Flash message styling */
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            z-index: 9999;
+            padding: 15px 20px;
+            background-color: #28a745; /* Green for success */
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .flash-message.danger {
+            background-color: #dc3545; /* Red for danger */
+        }
+
+        .flash-message.show {
+            right: 20px; /* Slide in */
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <script>
+        // Auto-show flash messages
+        window.onload = function () {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(flash => {
+                setTimeout(() => {
+                    flash.classList.add('show'); // Slide in
+                }, 100); // Delay before sliding in
+
+                setTimeout(() => {
+                    flash.classList.remove('show'); // Slide out
+                }, 4000); // Keep visible for 4 seconds
+            });
+        };
+    </script>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
+
+

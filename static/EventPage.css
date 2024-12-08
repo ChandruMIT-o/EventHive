@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@500&display=swap');
+
+:root{
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --font-family: 'Lexend';
+    --font-size-large: 64px;
+    --font-size-medium: 40px;
+    --font-size-small: 36px;
+    --font-size-tiny: 18px;
+    --font-size-xxsmall: 16px;
+    --font-bold: 700px;
+    --font-regular: 400px;
+
+    --light-grey: #ECECEC;
+}
+
+body{
+    margin: 0px;
+}
+
+.event-page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 15px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.brand-title {
+    font-family: 'Lexend';
+    font-size: 1.55em;
+    color: var(--font-dark-color);
+    font-weight: bold;
+}
+
+.brand-title .span {
+    color: var(--secondary-color);
+}
+
+.signin-button {
+    font-family: var(--font-family);
+    font-size: 0.8em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 5px;
+
+    padding: 10px 20px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+}
+
+.signin-button:hover {
+    background-color: var(--primary-color);
+}
+
+.centered-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    margin-top: 20px;
+
+    gap: 30px;
+}

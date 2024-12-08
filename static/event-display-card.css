@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@500&display=swap');
+
+:root{
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-medium-color: #7E7E7E;
+    --font-dark-color: #000;
+
+    --font-family: 'Lexend';
+    --font-size-large: 64px;
+    --font-size-medium: 40px;
+    --font-size-small: 36px;
+    --font-size-tiny: 18px;
+    --font-size-xxsmall: 16px;
+    --font-bold: 700px;
+    --font-regular: 400px;
+
+    --light-grey: #ECECEC;
+}
+
+/* Styling the entire event display card */
+.event-display-card {
+    display: flex;
+    flex-wrap: wrap;
+
+    background-color: var(--primary-color);
+    margin-left: 3%;
+    margin-right: 3%;
+    padding: 50px;
+
+    gap: 30px;
+
+    font-family: var(--font-family);
+    color: var(--font-light-color);
+
+    border-radius: 10px;
+}
+
+/* Styling the left section of the card */
+.title-place-description {
+
+    flex: 3;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 400px;
+    padding-top: 100px;
+}
+
+.back-button {
+
+    position: absolute;
+
+    font-family: var(--font-family);
+    font-size: 0.8em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 50px;
+
+    padding: 10px 13px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+    display: flex;
+    justify-content: center;
+}
+
+.back-button:hover {
+    background-color: var(--primary-color);
+}
+
+.event-title {
+    font-family: var(--font-family);
+    color: var(--font-light-color);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.event-place {
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    margin-top: 10px;
+}
+
+.event-description{
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+/* Styling the right section of the card */
+.place-time-booking-box {
+    background-color: var(--font-light-color);
+    padding: 25px;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    color: var(--font-dark-color);
+    font-size: 0.9rem;
+
+    gap: 10px;
+
+    min-width: 300px;
+    max-width: 100%;
+
+    flex: 1;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.place-time-booking-box .date-time-head,
+.place-time-booking-box .location-head {
+    color: var(--font-dark-color);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.booking-info{
+    color: var(--font-medium-color);
+    font-weight: 500;
+}
+
+/* Styling the Book Now section */
+
+.book-now-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    flex: 1;
+    align-items: stretch;
+    justify-items: center;
+}
+
+.book-now-button {
+
+    width: 100%;
+
+    font-family: var(--font-family);
+    font-size: 1em;
+    background-color: var(--secondary-color);
+    color: var(--font-light-color);
+    border: none;
+    border-radius: 5px;
+
+    padding: 10px 20px;
+
+    cursor: pointer;
+
+    transition: all 0.5 ease-in-out;
+}
+
+.book-now-button:disabled {
+    background-color: var(--font-medium-color);
+}
+
+.book-now-button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+}
+
+.book-now-section span {
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+}

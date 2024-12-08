@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Event Page</title>
+    <link rel="stylesheet" href="static/CreateEventPage.css">
 </head>
 <body>
     <header class="event-page-header">
-        <label>
-            <span>Event</span>
-            <span>Hive</span>
+        <label class="brand-title">
+            Event
+            <span class="brand-title-span">Hive</span>
         </label>
         <div class="login-signup-btn-grp">
-            <button type="button">Login</button>
-            <button type="button">Signup</button>
+            {% if session.get('user_id') %}
+                <form action="{{ url_for('signout') }}" method="POST" style="display: inline;">
+                    <button type="submit" class="signin-button">Sign Out</button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('signin') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Login</button>
+                </form>
+                <form action="{{ url_for('signup') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Signup</button>
+                </form>
+            {% endif %}
         </div>
-    </header>
+    </header> 
     <div class="centered-container">
+
         <!-- EVENT FORM -->
-        <form class="event-form" method="POST">
+        <form class="event-form" method="POST" enctype="multipart/form-data">
+            <button class="back-button" type="button" onclick="history.back()"><img src="static/images/back.svg">
+            </button>
             <!-- PRIMARY DETAILS -->
             <div class="primary-details">
+
                 <label class="cep-header1">Event Details</label>
                 <div class="input-component">
                     <label for="event-title">Event Title</label>
@@ -32,15 +47,15 @@
                     <div class="event-address-container">
                         <div class="city">
                             <label for="address-city">City</label>
-                            <input type="text" id="address-city" name="event-venue" placeholder="City name" required>
+                            <input type="text" id="address-city" name="event-city" placeholder="City name" required>
                         </div>
                         <div class="state">
                             <label for="address-state">State</label>
-                            <input type="text" id="address-state" name="event-venue" placeholder="State name" required>
+                            <input type="text" id="address-state" name="event-state" placeholder="State name" required>
                         </div>
                         <div class="country">
                             <label for="address-country">Country</label>
-                            <input type="text" id="address-country" name="event-venue" placeholder="Country name" required>
+                            <input type="text" id="address-country" name="event-country" placeholder="Country name" required>
                         </div>
                     </div>
                 </div>
@@ -72,62 +87,87 @@
                 <label class="cep-header1">Event Description</label>
                 <div class="event-image">
                     <label for="event-image">Event Image</label>
-                    <input type="file" id="event-image" name="event-image" accept="image/*">
-                    <img src="" alt="Event Image" id="preview-image">
+                    <div class="file-upload-container">
+                        <label for="event-image" class="custom-file-upload">Choose File</label>
+                        <input class="all-text-input" type="file" id="event-image" name="event-image" accept="image/*">
+                    </div>
+                    <img alt="">
                 </div>
                 <div class="event-description-content">
                     <label for="event-description">Enter Description</label>
                     <textarea id="event-description" name="event-description" rows="4" placeholder="Type here..." required></textarea>
                 </div>
                 <div class="event-type">
-                    <label for="event-type">Event Type</label>
-                    <input type="text" id="event-type" name="event-type" required>
+                    <label>Event Type</label>
+                    <input class="all-text-input" type="text" id="event-type" name="event-type" required>
                 </div>
                 <div class="event-tags">
                     <label for="event-tags">Event Tags</label>
-                    <input type="text" id="event-tags" name="event-tags" required>
+                    <input class="all-text-input" type="text" id="event-tags" name="event-tags" required>
                 </div>
             </div>
             <!-- EVENT PRICING -->
             <div class="event-pricing">
                 <div class="toggle-pricing">
                     <label class="cep-header1">Pricing</label>
-                    <input type="checkbox" id="toggle-pricing">
+                    <div class="checkbox-wrapper-2">
+                        <input type="checkbox" class="sc-gJwTLC ikxBAC">
+                    </div>                   
                 </div>
-                <div class="tier-details-column-split">
-                    <div class="column1">
-                        <label class="tier-name">Tier Name</label>
-                        <input type="text" id="tier-name-1" name="tier-name-1" required>
-                        <div class="sub-column">
-                            <div class="column1">
-                                <label class="tier-price">Tier Price</label>
-                                <input type="number" id="tier-price-1" name="tier-price-1" required>
-                            </div>
-                            <div class="column2">
-                                <label class="tickets-max-count">Tickets Max Count</label>
-                                <input type="number" id="tickets-max-count-1" name="tickets-max-count-1" required>
+                <div id="pricing-tiers-container">
+                    <!-- Initially one tier set -->
+                    <div class="tier-details-column-split tier-1">
+                        <div class="column1">
+                            <label class="tier-name">Tier Name</label>
+                            <input class="all-text-input" type="text" name="tier-name[]" required>
+                            <div class="sub-column">
+                                <div class="sub-column1">
+                                    <label class="tier-price">Tier Price</label>
+                                    <input class="all-text-input" type="number" name="tier-price[]" required>
+                                </div>
+                                <div class="sub-column2">
+                                    <label class="tickets-max-count">Tickets Max Count</label>
+                                    <input class="all-text-input" type="number" name="tickets-max-count[]" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="column2">
-                        <label class="tier-decription">Tier Description</label>
-                        <textarea id="tier-description-1" name="tier-description-1" rows="4" required></textarea>
+                        <div class="column2">
+                            <label class="tier-decription">Tier Description</label>
+                            <textarea class="all-text-input" name="tier-description[]" rows="4" required></textarea>
+                        </div>
                     </div>
                 </div>
-                <button class="add-pricing-button">
-                    <label class="add-pricing-buttons-text">Add Pricing Tiers</label>
-                    <div class="add-svg"></div>
-                </button>
+                <div class="center-content-div">
+                    <button class="add-pricing-button" type="button" id="add-pricing-tier">
+                        <label class="add-pricing-buttons-text">Add Pricing Tiers</label>
+                        <img src="static/images/addicon.svg">
+                    </button>
+                </div>
             </div>
+            <script>
+                document.getElementById('add-pricing-tier').addEventListener('click', function() {
+                    var container = document.getElementById('pricing-tiers-container');
+                    
+                    // Clone the first tier set and update the class for uniqueness
+                    var newTier = container.querySelector('.tier-1').cloneNode(true);
+                    newTier.classList.remove('tier-1');
+                    newTier.classList.add('tier-' + (container.children.length + 1));
+                    
+                    // Append the new tier to the container
+                    container.appendChild(newTier);
+                });
+            </script>
+            
             <!-- EVENT MEDIA -->
-            <div>
-                <button class="upload-media">
+            <label class="cep-header1">Event Media</label>
+            <div class="center-content-div">
+                <button class="upload-media" type="button">
                     <label class="upload-media-text">Upload Media</label>
-                    <div class="add-svg"></div>
+                    <img src="static/images/exporticon.svg">
                 </button>
             </div>
             <!-- EVENT SUBMISSION -->
-            <button type="create-event-button">Create Event</button>
+            <button type="submit" class="create-event-button">Create Event</button>
         </form>
     </div>
 </body>

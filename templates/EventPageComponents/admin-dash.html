@@ -1,59 +1,58 @@
+<link rel="stylesheet" href="static/admin-dash.css">
+
 <div class="admin-dash-container">
     <label class="admin-dash-title">Admin Dash</label>
     <div class="column-split">
-        <div class="column1">
+        <div class="summary-column1">
             <div class="summary-card">
                 <div class="summary-info">
                     <label class="summary-name">Total Views</label>
-                    <!-- <svg class="summary-info-icon"></svg> -->
+                    <img src="static/images/eye-white.svg">
                 </div>
                 <div class="summary-number">
-                    <label class="h1-text">1000</label>
+                    <label class="h1-text">{{ total_views }}</label>
                 </div>
             </div>
             <div class="summary-card">
                 <div class="summary-info">
                     <label class="summary-name">Total Registration</label>
-                    <!-- <svg class="summary-info-icon"></svg> -->
+                    <img src="static/images/people-white.svg">
                 </div>
                 <div class="summary-number">
-                    <label class="h1-text">30 / 300</label>
+                    <label class="h1-text">{{ total_tickets_sold }} / {{ total_available_tickets }}</label>
                 </div>
             </div>
         </div>
-        <div class="column1">
-            <div class="summary-card">
-                <div class="summary-info">
-                    <label class="summary-name">Preminum</label>
-                    <!-- <svg class="summary-info-icon"></svg> -->
+        <div class="summary-column1">
+            <!-- Loop through the tiers and display them dynamically -->
+            {% for tier in tier_data %}
+                <div class="summary-card">
+                    <div class="summary-info tiers">
+                        <label class="summary-name">Tier: {{ tier[0] }}</label> <!-- tier_name -->
+                        <img src="static/images/ticket.svg">
+                    </div>
+                    <div class="summary-number">
+                        <label class="h1-text">{{ tier[2] }} / {{ tier[1] }}</label> <!-- total_tickets_sold / available_tickets -->
+                    </div>
                 </div>
-                <div class="summary-number">
-                    <label class="h1-text">10 / 100</label>
-                </div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-info">
-                    <label class="summary-name">Special</label>
-                    <!-- <svg class="summary-info-icon"></svg> -->
-                </div>
-                <div class="summary-number">
-                    <label class="h1-text">10 / 300</label>
-                </div>
-            </div>
+            {% endfor %}
         </div>
-        <div class="column1">
+        <div class="summary-column1">
             <div class="summary-card">
-                <div class="summary-info">
+                <div class="summary-info impression-left">
                     <label class="summary-name">Impression Score</label>
+                    <img src="static/images/score.svg">
                 </div>
-                <div class="summary-number">
-                    <label class="h1-text">0.7</label>
+                <div class="summary-number impression-right">
+                    <label class="h1-text">{{ (total_tickets_sold / total_available_tickets)*100 if total_available_tickets != 0 else 0 }}</label>
                 </div>
             </div>
-            <button class="registration-list">
-                <label class="registration-list-text">Registration List</label>
-                <div class="download-svg"></div>
-            </button>
+            <div class="registration-btn-align">
+                <button class="registration-list">
+                    <label class="registration-list-text">Registration List</label>
+                    <img src="static/images/download.svg">
+                </button>
+            </div>
         </div>
     </div>
 </div>

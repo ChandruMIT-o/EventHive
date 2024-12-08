@@ -4,63 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <link rel="stylesheet" href="static/HomePage.css">
+    <link rel="stylesheet" href="static/home-event-card.css">
 </head>
 <body>
     <header class="event-page-header">
-        <label>
+        <label class="brand-title">
             <span>Event</span>
-            <span>Hive</span>
+            <span class="span">Hive</span>
         </label>
         <div class="login-signup-btn-grp">
-            <button type="button">Login</button>
-            <button type="button">Signup</button>
+            {% if session.get('user_id') %}
+                <form action="{{ url_for('signout') }}" method="POST" style="display: inline;">
+                    <button type="submit" class="signin-button">Sign Out</button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('signin') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Login</button>
+                </form>
+                <form action="{{ url_for('signup') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Signup</button>
+                </form>
+            {% endif %}
         </div>
-    </header>
+    </header>    
     <!-- BANNER DISPLAY -->
     <div class="banner-display">
+        <img class="img" src="static/images/displayImage.png">
         <div class="title">Make Your Own Event</div>
         <div class="description">
             Create your own event, share your experiences, and connect with your audience.
         </div>
+        {% if session.get('user_id') %}
         <div class="create-events-button">
-            <button type="button">Create Event</button>
+            <form action="{{ url_for('create_event') }}" method="get">
+                <button class="create-btn" type="submit">Create Event</button>
+            </form>
         </div>
+        {% else %}
+        <div class="create-events-button">
+            <form action="{{ url_for('create_event') }}" method="get">
+                <button class="create-btn" type="submit" disabled>Create Event (Sign In!)</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
-    <!-- YOUR EVENTS -->
-    <div class="your-events-title">Your <span>Events</span></div>
-    {% include "HomePageComponents/home-event-user-card.html" %}
+
     <!-- EXPLORE EVENTS -->
-     <div class="explore-events-title">Explore <span>Events</span></div>
-     <div class="filters-container">
-        <div class="event-type">
-            <label for="event-type">Looking for</label>
-            <select id="event-type">
-                <option value="">All</option>
-                <option value="concerts">Concerts</option>
-                <option value="festivals">Festivals</option>
-                <option value="workshops">Workshops</option>
-                <option value="seminars">Seminars</option>
-                <option value="meetups">Meetups</option>
-            </select>
-        </div>
-        <div class="location">
-            <label for="location">Location</label>
-            <input type="text" id="location" placeholder="City, State">
-        </div>
-        <div class="date-range">
-            <label for="date-range">When</label>
-            <input type="date" id="start-date">
-            <input type="date" id="end-date">
-        </div>
-        <div class="search-bar-section">
-            <label for="search-bar-section">Search</label>
-            <div class="search-bar">
-                <input type="text" id="search-bar" placeholder="Search for events">
-                <button type="button">Search</button>
+    <form action="{{ url_for('home') }}" method="get">
+        <div class="explore-events-title">Explore <span class="explore-events-title-span">Events</span></div>
+        <div class="filters-container">
+            <div class="event-type">
+                <label for="event-type">Looking for</label>
+                <div class="event-type-row">
+                    <select class="select-all-types" id="event-type" name="event_type">
+                        <option value="">All</option>
+                        {% for event_type_option in event_types %}
+                            <option value="{{ event_type_option['event_type'] }}" 
+                                {% if event_type_option['event_type'] == event_type %}selected{% endif %}>
+                                {{ event_type_option['event_type'].capitalize() }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="location">
+                <label for="location">Location</label>
+                <div class="location-row">
+                    <input class="location-input" type="text" id="location" name="location" placeholder="City, State" 
+                        value="{{ location }}">
+                </div>
+            </div>
+            <div class="date-range">
+                <label for="date-range">When</label>
+                <div class="column-split">
+                    <input class="start-date-input" type="date" id="start-date" name="start_date" value="{{ start_date }}">
+                    <input class="end-date-input" type="date" id="end-date" name="end_date" value="{{ end_date }}">
+                </div>
+            </div>
+            <div class="search-bar-section">
+                <label for="search-bar-section">Search</label>
+                <div class="search-bar">
+                    <input type="text" class="search-input" name="search_query" placeholder="Search for events" 
+                        value="{{ search_query }}">
+                    <button class="search-button" type="submit"><img src="static/images/search.svg"></button>
+                </div>
             </div>
         </div>
-     </div>
-     <!-- EVENT CARDS -->
-    {% include "HomePageComponents/home-event-card.html" %}
+    </form>
+    
+    <!-- EVENT CARDS -->
+    <div class="event-cards-container">
+        {% for event in events %}
+            {% include "HomePageComponents/home-event-card.html" %}
+        {% endfor %}    
+    </div>    
+
+    <!-- YOUR EVENTS -->
+    <div class="your-events-title">Your <span class="your-events-title-span">Events</span></div>
+    <div class="your-events-container">
+        {% include "HomePageComponents/home-event-user-card.html" %}
+    </div>
 </body>
 </html>

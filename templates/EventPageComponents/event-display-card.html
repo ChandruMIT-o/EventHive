@@ -1,35 +1,47 @@
+<link rel="stylesheet" href="static/event-display-card.css">
+
 <div class="event-display-card">
+    <button class="back-button" type="button" onclick="history.back()"><img src="static/images/back.svg">
+    </button>
 
     <!--Left Side of the Event Display-->
-
     <div class="title-place-description">
-        <button type="button">Back</button>
-        <span>Dream world wide in jakatra</span>
-        <span>IIIT Sonepat</span>
-        <p>DesignHub organized a 3D Modeling Workshop using Blender on 16th February at 5 PM. The workshop taught participants the magic of creating stunning 3D models and animations using Blender. It was suitable for both beginners and experienced users. The event was followed by a blender-render competition, which added to the excitement.</p>
+        <span class="event-title">{{ event['title'] }}</span>
+        <!-- <span>{{ event['location'] }}</span> -->
+         <span class="event-place">{{ event['city'] }}, {{ event['state'] }}</span>
+        <p class="event-description">{{ event['description'] }}</p>
     </div>
-    
     <!--Right Side of the Event Display-->
-
     <div class="place-time-booking-box">
-        <div class="date-time-section">
-            <div class="date-time-head">
-                <span>Date & Time</span>
-                <!--Place logo later-->
+        <div class="info-container">
+            <div class="date-time-section">
+                <div class="date-time-head">
+                    Date & Time
+                </div>
             </div>
-            <span>Saturday, March 18 2023, 9:30 PM</span>
-        </div>
-        <div class="location-section">
-            <div class="location-head">
-                <span>Booking</span>
-                <!--Place logo later-->
+            <span class="booking-info">{{ event['start_date'] }} to {{ event['end_date'] }} <br>from {{ event['start_time'] }} to {{ event['end_time'] }}</br></span>
+            <div class="location-section">
+                <div class="location-head">
+                    <span>Booking</span>
+                </div>
+                <p class="booking-info">{{ event['street'] }}, {{ event['city'] }}, <br> {{ event['state'] }}, {{ event['country'] }} </br></p>
             </div>
-            <p>Chromepet, Chennai 600033
-                Tamil Nadu, India.</p>
         </div>
-        <div class="book-now-section">
-            <button type="button">Book Now</button>
-            <span>No Refunds</span>
+        <div>
+            {% if session.get('user_id') %}
+            <div class="book-now-section">
+                <a href="{{ url_for('register', event_id=event_id) }}">
+                    <button class="book-now-button" type="button">Book Now</button>
+                </a>
+                <span>No Refunds</span>
+            </div>
+            
+            {% else %}
+            <div class="book-now-section">
+                <button class="book-now-button" type="button" disabled>Book Now (Sign In!)</button>
+                <span>No Refunds</span>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

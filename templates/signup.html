@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="signup-container">
+    <div class="left-section right-image">
+        <h1>Hello Friend!</h1>
+        <p>If you already have an account, Please Sign-in.</p>
+        <form method="GET" action="{{ url_for('signin') }}">
+            <button type="submit" class="signup-button">Sign In</button>
+        </form>
+    </div>
+    
+    <div class="right-section">
+        <h2>Sign Up to Event <span class="secondary">Hive</h2>
+        <form method="POST" action="{{ url_for('signup') }}">
+            <label for="username">Username</label>
+            <input class="all-text-input" type="text" id="username" name="username" placeholder="Enter your username" required>
+            
+            <label for="password">Password</label>
+            <input class="all-text-input" type="password" id="password" name="password" placeholder="Enter your password" required>
+            
+            <label for="email">Email</label>
+            <input class="all-text-input" type="email" id="email" name="email" placeholder="Enter your email" required>
+            
+            <label for="name">Name</label>
+            <input class="all-text-input" type="text" id="name" name="name" placeholder="Enter your name" required>
+            
+            <label for="phone_number">Phone Number</label>
+            <input class="all-text-input" type="text" id="phone_number" name="phone_number" placeholder="Enter your phone number" required>
+            
+            <button class="signinM-button" type="submit">Sign Up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

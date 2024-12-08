@@ -4,20 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Page</title>
+    <link rel="stylesheet" href="static/EventPage.css">
 </head>
 <body>
     <header class="event-page-header">
-        <label>
+        <label class="brand-title">
             <span>Event</span>
-            <span>Hive</span>
+            <span class="span">Hive</span>
         </label>
         <div class="login-signup-btn-grp">
-            <button type="button">Login</button>
-            <button type="button">Signup</button>
+            {% if session.get('user_id') %}
+                <form action="{{ url_for('signout') }}" method="POST" style="display: inline;">
+                    <button type="submit" class="signin-button">Sign Out</button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('signin') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Login</button>
+                </form>
+                <form action="{{ url_for('signup') }}" method="GET" style="display: inline;">
+                    <button type="submit" class="signin-button">Signup</button>
+                </form>
+            {% endif %}
         </div>
-    </header>
-    {% include "EventPageComponents/event-display-card.html" %}
-    {% include "EventPageComponents/admin-dash.html" %}
-    {% include "EventPageComponents/event-dual-column.html" %}
+    </header>    
+    <div class="centered-container">
+        {% include "EventPageComponents/event-display-card.html" %}
+        {% if display_admin_panel %}
+        {% include "EventPageComponents/admin-dash.html" %}
+        {% endif %}
+        {% include "EventPageComponents/event-dual-column.html" %}
+    </div>
 </body>
 </html>
