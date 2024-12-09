@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="static/media-carousel.css">
+
+<div class="carousel">
+    <div class="carousel-container">
+        <!-- Video Slide -->
+        <div class="carousel-slide">
+            <video id="carousel-video" controls>
+                <source src="example.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <!-- Image Slides -->
+        <div class="carousel-slide">
+            <img src="image1.jpg" alt="Image 1">
+        </div>
+        <div class="carousel-slide">
+            <img src="image2.jpg" alt="Image 2">
+        </div>
+    </div>
+    <button class="carousel-control prev" id="prev">&#10094;</button>
+    <button class="carousel-control next" id="next">&#10095;</button>
+</div>
+<script>
+    const slides = document.querySelectorAll('.carousel-slide');
+    const container = document.querySelector('.carousel-container');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+
+    let currentIndex = 0;
+
+    // Update carousel position
+    function updateCarousel() {
+        container.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    // Event listeners for navigation
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
+        updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
+        updateCarousel();
+    });
+
+</script>

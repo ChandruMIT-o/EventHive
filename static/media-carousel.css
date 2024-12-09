@@ -1,0 +1,76 @@
+:root {
+    --primary-color: #10375C;
+    --secondary-color: #EB8317;
+    --font-light-color: #FFFFFF;
+    --font-dark-color: #000;
+
+    --font-family: 'Lexend', sans-serif;
+
+    --light-grey: #ECECEC;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 56.25vw;
+    max-height: 100vh;
+    overflow: hidden;
+    background-color: var(--primary-color);
+}
+
+.carousel-container {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.carousel-slide video, 
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--font-light-color);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50px;
+    z-index: 10;
+    opacity: 0.2;
+
+    width: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    transition: all 0.5s ease;
+}
+
+.carousel-control:hover {
+    opacity: 1;
+}
+
+.carousel-control.prev {
+    left: 10px;
+}
+
+.carousel-control.next {
+    right: 10px;
+}

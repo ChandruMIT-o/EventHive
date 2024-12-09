@@ -1,30 +1,34 @@
 <link rel="stylesheet" href="static/event-display-card.css">
 
 <div class="event-display-card">
-    <button class="back-button" type="button" onclick="history.back()"><img src="static/images/back.svg">
+    <!-- Background Image with Overlay -->
+    <div class="background-image-container">
+        <img src="static/images/event-background.jpg" alt="Event Background" class="background-image">
+        <div class="background-overlay"></div>
+    </div>
+
+    <!-- Content -->
+    <button class="back-button" type="button" onclick="history.back()">
+        <img src="static/images/back.svg" alt="Back">
     </button>
 
-    <!--Left Side of the Event Display-->
+    <!-- Left Side of the Event Display -->
     <div class="title-place-description">
         <span class="event-title">{{ event['title'] }}</span>
-        <!-- <span>{{ event['location'] }}</span> -->
-         <span class="event-place">{{ event['city'] }}, {{ event['state'] }}</span>
+        <span class="event-place">{{ event['city'] }}, {{ event['state'] }}</span>
         <p class="event-description">{{ event['description'] }}</p>
     </div>
-    <!--Right Side of the Event Display-->
+
+    <!-- Right Side of the Event Display -->
     <div class="place-time-booking-box">
         <div class="info-container">
             <div class="date-time-section">
-                <div class="date-time-head">
-                    Date & Time
-                </div>
+                <div class="date-time-head">Date & Time</div>
             </div>
-            <span class="booking-info">{{ event['start_date'] }} to {{ event['end_date'] }} <br>from {{ event['start_time'] }} to {{ event['end_time'] }}</br></span>
+            <span class="booking-info">{{ event['start_date'] }} to {{ event['end_date'] }} <br>from {{ event['start_time'] }} to {{ event['end_time'] }}</span>
             <div class="location-section">
-                <div class="location-head">
-                    <span>Booking</span>
-                </div>
-                <p class="booking-info">{{ event['street'] }}, {{ event['city'] }}, <br> {{ event['state'] }}, {{ event['country'] }} </br></p>
+                <div class="location-head"><span>Booking</span></div>
+                <p class="booking-info">{{ event['street'] }}, {{ event['city'] }}, <br> {{ event['state'] }}, {{ event['country'] }}</p>
             </div>
         </div>
         <div>
@@ -35,7 +39,6 @@
                 </a>
                 <span>No Refunds</span>
             </div>
-            
             {% else %}
             <div class="book-now-section">
                 <button class="book-now-button" type="button" disabled>Book Now (Sign In!)</button>

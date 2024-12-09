@@ -24,7 +24,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    background-color: var(--primary-color);
+    background-color: transparent;
     margin-left: 3%;
     margin-right: 3%;
     padding: 50px;
@@ -174,4 +174,31 @@
     text-align: center;
     color: var(--secondary-color);
     font-weight: 500;
+}
+/* Event Display Card */
+.event-display-card {
+    position: relative;
+    overflow: hidden; /* Ensures the image and overlay stay within the card boundaries */
+}
+
+/* Background Image */
+.event-display-card img.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the card while maintaining aspect ratio */
+    z-index: -2; /* Places the image at the lowest layer */
+}
+
+/* Dark Overlay */
+.event-display-card .background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black overlay with 50% transparency */
+    z-index: -1; /* Places the overlay above the image but below all other content */
 }
