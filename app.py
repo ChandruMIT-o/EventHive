@@ -2,18 +2,43 @@ from flask import Flask, render_template, request, redirect, flash, url_for, ses
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from datetime import datetime
+import os
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
+s3_client = boto3.client('s3')
+
+UPLOAD_FOLDER = r'static\images\uploads'  # Ensure this folder exists and is writable
+MEDIA_FOLDER = r'static\videos'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}  # Define allowed file types
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+app.config['MEDIA_FOLDER'] = MEDIA_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 # MySQL Configuration
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'root',
+    'host': 'eventmanagementdb.c1osgyis4swa.us-east-1.rds.amazonaws.com',
+    'user': 'admin',
+    'password': '2022510025Ramz',
     'database': 'EventHive'
 }
+
+# db_config = {
+#     'host': 'localhost',
+#     'user': 'root',
+#     'password': 'password',
+#     'database': 'EventHive'
+# }
+
 
 def get_db_connection():
     try:
@@ -44,7 +69,7 @@ def signup():
                 cursor = db.cursor(dictionary=True)
                 cursor.execute(
                     """
-                    INSERT INTO users (username, password, email, name, phone_number)
+                    INSERT INTO Users (username, password, email, name, phone_number)
                     VALUES (%s, %s, %s, %s, %s)
                     """,
                     (username, hashed_password, email, name, phone_number)
@@ -64,7 +89,6 @@ def signup():
 
     return render_template('signup.html')
 
-
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
@@ -75,7 +99,7 @@ def signin():
             db = get_db_connection()
             if db:
                 cursor = db.cursor(dictionary=True)
-                cursor.execute("SELECT user_id, password FROM users WHERE email = %s", (email,))
+                cursor.execute("SELECT user_id, password FROM Users WHERE email = %s", (email,))
                 user = cursor.fetchone()
 
         except Error as e:
@@ -118,7 +142,6 @@ def signin():
 
     return render_template('signin.html')
 
-
 @app.route('/signout', methods=['POST'])
 def signout():
     user_id = session.get('user_id')
@@ -149,9 +172,9 @@ def signout():
 
     return redirect(url_for('home'))
 
-
 # Event Management Functions
 def get_events(event_type='', location='', start_date='', end_date=''):
+    events = []
     try:
         conn = get_db_connection()
         if conn:
@@ -159,9 +182,9 @@ def get_events(event_type='', location='', start_date='', end_date=''):
             current_datetime = datetime.now()
             query = """
                 SELECT event_id, title, event_type, description, start_date, end_date, 
-                       start_time, end_time, street, city, state, country, views, tags
+                       start_time, end_time, street, city, state, country, views, tags, image_path
                 FROM Events 
-                WHERE (start_date > %s OR (start_date = %s AND start_time > %s))
+                WHERE (start_date > %s OR (start_date = %s AND start_time >= %s))
             """
             params = [current_datetime.date(), current_datetime.date(), current_datetime.time()]
 
@@ -185,6 +208,7 @@ def get_events(event_type='', location='', start_date='', end_date=''):
             query += " ORDER BY start_date, start_time ASC"
             cursor.execute(query, tuple(params))
             events = cursor.fetchall()
+            
     except Error as e:
         flash(f"Error fetching events: {str(e)}", "danger")
         events = []
@@ -195,15 +219,15 @@ def get_events(event_type='', location='', start_date='', end_date=''):
 
     return events
 
-
 def get_event_details(event_id):
+    event = []
     try:
         conn = get_db_connection()
         if conn:
             cursor = conn.cursor(dictionary=True)
             query = """
                 SELECT title, event_type, description, start_date, end_date, start_time, end_time, 
-                       street, city, state, country, views, tags, created_by
+                       street, city, state, country, views, tags, created_by, image_path
                 FROM Events 
                 WHERE event_id = %s
             """
@@ -218,8 +242,8 @@ def get_event_details(event_id):
             conn.close()
     return event
 
-
 def get_unique_event_types():
+    event_types = []
     today = datetime.today().strftime('%Y-%m-%d')
     try:
         conn = get_db_connection()
@@ -240,6 +264,16 @@ def get_unique_event_types():
             conn.close()
     return event_types
 
+def upload_to_s3(file, bucket_name, file_name):
+    try:
+        s3_client.upload_fileobj(
+            file,
+            bucket_name,
+            file_name,
+        )
+        return f"https://{bucket_name}.s3.us-east-1.amazonaws.com/{file_name}"
+    except NoCredentialsError:
+        return "Credentials not available"
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -265,7 +299,7 @@ def home():
 
                 # Query to get events the user has registered for
                 cursor.execute("""
-                    SELECT b.event_id, e.title, e.views, e.start_date, e.end_date
+                    SELECT b.event_id, e.title, e.views, e.start_date, e.end_date, e.image_path
                     FROM Bookings b
                     JOIN Events e ON b.event_id = e.event_id
                     WHERE b.user_id = %s
@@ -288,12 +322,13 @@ def home():
                         'start_date': event[3],
                         'end_date': event[4],
                         'total_tickets_sold': int(total_tickets_sold),
-                        'status': 'Registered'  # Event type
+                        'status': 'Registered',
+                        'image_path': event[5]
                     }
 
                 # Query to get events the user has created
                 cursor.execute("""
-                    SELECT e.event_id, e.title, e.views, e.start_date, e.end_date
+                    SELECT e.event_id, e.title, e.views, e.start_date, e.end_date, e.image_path
                     FROM Events e
                     WHERE e.created_by = %s
                 """, (session['user_id'],))
@@ -315,7 +350,8 @@ def home():
                         'start_date': event[3],
                         'end_date': event[4],
                         'total_tickets_sold': int(total_tickets_sold),
-                        'status': 'Created'  # Event type
+                        'status': 'Created',  # Event type
+                        'image_path' : event[5]
                     }
 
         except Error as e:
@@ -339,40 +375,52 @@ def home():
         current_date=current_date  # Pass the current date to the template
     )
 
-
-
 @app.route('/<int:event_id>')
 def event_page(event_id):
     # Fetch event details
     event = get_event_details(event_id)
-    
+
     if not event:
         return "Event not found", 404
-    
-    # Check if the logged-in user is the creator of the event
+
+    # Determine if the logged-in user is the event creator
     display_admin_panel = False
-    if 'user_id' in session:
-        if session['user_id'] == event['created_by']:
-            display_admin_panel = True
-    
-    # Initialize variables for dashboard details
+    if 'user_id' in session and session['user_id'] == event['created_by']:
+        display_admin_panel = True
+
+    # Initialize variables
     total_views = None
     tier_data = []
     total_tickets_sold = 0
     total_available_tickets = 0
+    event_media = None
 
-    if display_admin_panel:
-        # Only query these details if the user is the creator
-        try:
-            db = get_db_connection()
-            if db:
-                cursor = db.cursor()
+    try:
+        # Connect to the database
+        db = get_db_connection()
+        if db:
+            cursor = db.cursor()
 
-                # Query to get total views for the event
-                cursor.execute("SELECT views FROM Events WHERE event_id = %s", (event_id,))
-                total_views = cursor.fetchone()[0]
+            # Increment the views count
+            cursor.execute("""
+                UPDATE Events
+                SET views = views + 1
+                WHERE event_id = %s
+            """, (event_id,))
+            db.commit()
 
-                # Query to get tier details (tier_name, available_tickets, total_tickets_sold)
+            # Fetch the total views
+            cursor.execute("SELECT views FROM Events WHERE event_id = %s", (event_id,))
+            total_views = cursor.fetchone()[0]
+
+            # Fetch media URL for the event
+            cursor.execute("SELECT media_url FROM Event_Media WHERE event_id = %s", (event_id,))
+            media_result = cursor.fetchone()
+            event_media = media_result[0] if media_result else None
+
+            # If the user is the event creator, fetch dashboard details
+            if display_admin_panel:
+                # Fetch tier details
                 cursor.execute("""
                     SELECT tier_name, available_tickets, total_tickets_sold
                     FROM Pricing_Tiers
@@ -382,54 +430,46 @@ def event_page(event_id):
 
                 # Calculate total tickets sold and available tickets
                 for tier in tier_data:
-                    total_tickets_sold += tier[2]  # sum of total_tickets_sold
-                    total_available_tickets += tier[1]  # sum of available_tickets
+                    total_tickets_sold += tier[2]  # Sum of total_tickets_sold
+                    total_available_tickets += tier[1]  # Sum of available_tickets
 
-        except Error as e:
-            flash(f"Error fetching data for the admin dashboard: {str(e)}", "danger")
-        finally:
-            if db and db.is_connected():
-                cursor.close()
-                db.close()
-
-    # Increment the views count (This part can be done irrespective of admin status)
-    try:
-        db = get_db_connection()
-        if db:
-            cursor = db.cursor()
-            cursor.execute("""
-                UPDATE Events
-                SET views = views + 1
-                WHERE event_id = %s
-            """, (event_id,))
-            db.commit()
-    except Error as e:
-        flash(f"Error updating views: {str(e)}", "danger")
+    except mysql.connector.Error as e:
+        flash(f"Database error: {str(e)}", "danger")
     finally:
-        if db and db.is_connected():
+        # Close cursor and connection
+        if cursor:
             cursor.close()
+        if db and db.is_connected():
             db.close()
-    print()
-    print()
-    print(total_views,
-                           tier_data, total_tickets_sold,
-                           total_available_tickets,
-                           display_admin_panel, event_id)
 
-    return render_template('EventPage.html', event=event, total_views=total_views,
-                           tier_data=tier_data, total_tickets_sold=total_tickets_sold,
-                           total_available_tickets=total_available_tickets,
-                           display_admin_panel=display_admin_panel, event_id=event_id)
+    # Log information for debugging
+    print(f"Event Media: {event_media}")
+    print(f"Total Views: {total_views}")
+    print(f"Tier Data: {tier_data}")
+    print(f"Total Tickets Sold: {total_tickets_sold}, Total Available Tickets: {total_available_tickets}")
+
+    # Render the template with fetched data
+    return render_template(
+        'EventPage.html',
+        event=event,
+        total_views=total_views,
+        tier_data=tier_data,
+        total_tickets_sold=total_tickets_sold,
+        total_available_tickets=total_available_tickets,
+        display_admin_panel=display_admin_panel,
+        event_id=event_id,
+        event_media=event_media
+    )
 
 # Success Page
 @app.route('/success')
 def success():
     return render_template('success.html', message="Welcome!")
 
-
 @app.route('/createevent', methods=['GET', 'POST'])
 def create_event():
     if request.method == 'POST':
+        # Capture form data
         title = request.form['event-title']
         event_type = request.form['event-type']
         description = request.form['event-description']
@@ -441,55 +481,81 @@ def create_event():
         city = request.form['event-city']
         state = request.form['event-state']
         country = request.form['event-country']
-        tags = request.form['event-tags'] 
+        tags = request.form['event-tags']
         user_id = session.get('user_id')
 
-        print("Captured Data:", {
-            "title": title,
-            "event_type": event_type,
-            "start_date": start_date,
-            "user_id": user_id
-        })
-
+        # Capture pricing tiers
         tier_names = request.form.getlist('tier-name[]')
         tier_prices = request.form.getlist('tier-price[]')
         tier_quantities = request.form.getlist('tickets-max-count[]')
         tier_descriptions = request.form.getlist('tier-description[]')
 
-        try:
-            db = get_db_connection()
-            cursor = db.cursor()
-            print("IM HERE")
+        # Capture the uploaded image
+        event_image = request.files.get('event-image')
+        event_media = request.files.get('event-media')
 
-            cursor.execute("""
-                INSERT INTO Events (title, event_type, description, start_date, end_date, start_time, end_time, street, city, state, country, views, tags, created_by)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """, (title, event_type, description, start_date, end_date, start_time, end_time, street, city, state, country, 0, tags, user_id))
-            
-            print("Event inserted.")
-            event_id = cursor.lastrowid
+        s3_img_url = ""
+        s3_media_url = ""
 
-            for i in range(len(tier_names)):
+        if event_image:
+            # Upload the file to S3
+            file_name = f"{title}_{event_image.filename}"
+            s3_img_url = upload_to_s3(event_image, "eventmanagers3", f"images/{file_name}")
+
+        if event_media:
+            # Upload the file to S3
+            file_name = f"{title}_{event_media.filename}"
+            s3_media_url = upload_to_s3(event_media, "eventmanagers3", f"media/{file_name}")
+
+        if event_image and allowed_file(event_image.filename):
+            try:
+                # Database connection
+                db = get_db_connection()
+                cursor = db.cursor()
+                view_ct = 0
+                # Insert event data into the database
                 cursor.execute("""
-                    INSERT INTO Pricing_Tiers (event_id, tier_name, tier_description, price, available_tickets)
-                    VALUES (%s, %s, %s, %s, %s)
-                """, (event_id, tier_names[i], tier_descriptions[i], tier_prices[i], tier_quantities[i]))
-            
-            print("Pricing tiers inserted.")
-            db.commit()
-            flash("Event created successfully!", "success")
-            return redirect(url_for('home'))
+                    INSERT INTO Events (title, event_type, description, start_date, end_date, start_time, end_time, street, city, state, country, views, tags, created_by, image_path)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """, (title, event_type, description, start_date, end_date, start_time, end_time, street, city, state, country, view_ct, tags, user_id, s3_img_url))
 
-        except Exception as e:
-            db.rollback()
-            print(f"Error: {e}")
-            flash(f"Error creating event: {str(e)}", "danger")
-        finally:
-            if db.is_connected():
-                cursor.close()
-                db.close()
+                # Get the newly inserted event ID
+                event_id = cursor.lastrowid
+
+                # Save pricing tiers
+                for i in range(len(tier_names)):
+                    cursor.execute("""
+                        INSERT INTO Pricing_Tiers (event_id, tier_name, tier_description, price, available_tickets)
+                        VALUES (%s, %s, %s, %s, %s)
+                    """, (event_id, tier_names[i], tier_descriptions[i], tier_prices[i], tier_quantities[i]))
+
+                if s3_media_url:
+                    # Insert media URL into Event_Media table
+                    cursor.execute("""
+                        INSERT INTO Event_Media (event_id, media_url, sequence)
+                        VALUES (%s, %s, 1)
+                    """, (event_id, s3_media_url))
+
+                # Commit the transaction
+                db.commit()
+                flash("Event created successfully!", "success")
+                return redirect(url_for('home'))
+
+            except Exception as e:
+                db.rollback()
+                print(f"Error: {e}")
+                flash(f"Error creating event: {str(e)}", "danger")
+            finally:
+                if db.is_connected():
+                    cursor.close()
+                    db.close()
+
+        else:
+            flash("Invalid file type or no file uploaded!", "danger")
 
     return render_template('CreateEventPage.html')
+
+
 @app.route('/register/<int:event_id>', methods=['GET', 'POST'])
 def register(event_id):
     db = get_db_connection()

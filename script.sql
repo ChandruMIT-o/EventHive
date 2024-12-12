@@ -90,5 +90,6 @@ CREATE TABLE Booking_Details (
     CONSTRAINT pk_booking_details PRIMARY KEY (booking_id, tier_id)
 );
 
-
+ALTER TABLE Events
+ADD image_path VARCHAR(250);
 
