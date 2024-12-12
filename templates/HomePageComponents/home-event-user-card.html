@@ -1,9 +1,13 @@
 <link rel="stylesheet" href="static/home-event-user-card.css">
 
 {% for event_id, event in user_events.items() %}
-<a href="/{{ event['event_id'] }}" class="home-event-card-link">
+<a href="/{{ event_id }}" class="home-event-card-link">
     <div class="home-event-user-card">
+        
         <div class="image-background">
+            
+            <img class="bgimage" src="{{ event['image_path'] }}">
+            
             <!-- Display "Registered" or "Created" based on the event status -->
             <label class="event-user-relation">{{ event['status'] }}</label>
             

@@ -89,9 +89,9 @@
                     <label for="event-image">Event Image</label>
                     <div class="file-upload-container">
                         <label for="event-image" class="custom-file-upload">Choose File</label>
-                        <input class="all-text-input" type="file" id="event-image" name="event-image" accept="image/*">
+                        <input class="all-text-input" type="file" id="event-image" name="event-image" accept="image/*" onchange="previewImage(event)">
                     </div>
-                    <img alt="">
+                <img id="image-preview" style="display:none; width: 200px; margin-top: 10px;" alt="Image Preview">
                 </div>
                 <div class="event-description-content">
                     <label for="event-description">Enter Description</label>
@@ -161,14 +161,66 @@
             <!-- EVENT MEDIA -->
             <label class="cep-header1">Event Media</label>
             <div class="center-content-div">
-                <button class="upload-media" type="button">
-                    <label class="upload-media-text">Upload Media</label>
-                    <img src="static/images/exporticon.svg">
-                </button>
+                <label for="event-media" class="custom-file-upload">Upload Media</label>
+                <input type="file" id="event-media" name="event-media" accept="image/*,video/*" onchange="previewMedia(event)">
             </div>
+            <div id="media-preview-container" style="margin-top: 20px;">
+                <!-- The preview will be inserted here -->
+            </div>
+            
             <!-- EVENT SUBMISSION -->
             <button type="submit" class="create-event-button">Create Event</button>
         </form>
     </div>
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('image-preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function previewMedia(event) {
+        const input = event.target;
+        const container = document.getElementById('media-preview-container');
+        container.innerHTML = ''; // Clear any previous preview
+
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const fileType = file.type;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (fileType.startsWith('image/')) {
+                    // If the file is an image, display it
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '200px';
+                    img.style.marginTop = '10px';
+                    img.alt = 'Image Preview';
+                    container.appendChild(img);
+                } else if (fileType.startsWith('video/')) {
+                    // If the file is a video, display it
+                    const video = document.createElement('video');
+                    video.src = e.target.result;
+                    video.controls = true;
+                    video.style.width = '300px';
+                    video.style.marginTop = '10px';
+                    container.appendChild(video);
+                } else {
+                    // Unsupported file type
+                    alert('Unsupported file type. Please select an image or video.');
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+        }
+    </script>
 </body>
 </html>

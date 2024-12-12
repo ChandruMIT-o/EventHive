@@ -1,7 +1,7 @@
 <a href="/{{ event['event_id'] }}" class="home-event-card-link">
     <div class="event-card">
         <div class="image-container">
-            <img>
+            <img src="{{ event['image_path'] }}">
             <span class="badge">{{ event['event_type'] }}</span>
         </div>
         <div class="event-content">

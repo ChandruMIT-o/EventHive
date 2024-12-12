@@ -101,7 +101,9 @@
     </div>    
 
     <!-- YOUR EVENTS -->
+     {% if user_events %}
     <div class="your-events-title">Your <span class="your-events-title-span">Events</span></div>
+    {% endif %}
     <div class="your-events-container">
         {% include "HomePageComponents/home-event-user-card.html" %}
     </div>
